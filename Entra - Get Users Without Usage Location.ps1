@@ -14,7 +14,7 @@ Script Tasks:
 Connect-Entra -Scopes 'User.Read.All'
 $EntraUsers = Get-EntraUser -All
 $EntraUsersLocation = foreach ($User in $EntraUsers) {
-    if ($User.usageLocation -eq $null) {
+    if ($null -eq $User.usageLocation) {
         [pscustomobject]@{
             Id                  = $user.Id
             DisplayName         = $user.DisplayName
