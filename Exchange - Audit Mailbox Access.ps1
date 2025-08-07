@@ -3,7 +3,7 @@
     Shows which mailboxes a user has access to in Exchange Online.
 
 .NOTES
-    - Requires ExchangeOnlineManagement module (auto-installs if missing).
+    - Requires ExchangeOnlineManagement module
 #>
 
 if (-not (Get-Module -ListAvailable -Name ExchangeOnlineManagement)) {
