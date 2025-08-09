@@ -1,13 +1,3 @@
-<#
-=============================================================================================
-Name:           M365 - Assign Licenses
-Description:    Assigns licenses to a user.
-Prerequisites:  MgGraph Module
-
-Script Tasks: 
-~~~~~~~~~~~~~~~~~
-============================================================================================
-#>
 Connect-Graph -Scopes User.ReadWrite.All, Organization.Read.All
 
 $UserID = Read-Host "Enter the user ID you'd like to assign a license to"
