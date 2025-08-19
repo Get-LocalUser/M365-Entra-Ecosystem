@@ -13,8 +13,21 @@ $user = Read-Host "Enter the email for the user"
 
 # Create a Temporary Access Pass for a user
 $properties = @{}
-$properties.isUsableOnce = $True
+$properties.isUsableOnce = $false
 $properties.startDateTime = $time
 $propertiesJSON = $properties | ConvertTo-Json
 
 New-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserID $user -BodyParameter $propertiesJSON
+
+try {
+    $question = Read-Host "Do you want to remove the current TAP?"
+    if ($question -eq "y") {
+        Remove-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserId $user
+    } else {
+        Write-Host "You said no. TAP remains"
+    }
+}
+catch {
+    Write-Host "Failed to remove TAP. Manually remove from the Entra Admin Center" -ForegroundColor Red
+    "Error: $($_.Exception.Message)"
+}
