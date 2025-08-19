@@ -18,6 +18,7 @@ $properties.startDateTime = $time
 $propertiesJSON = $properties | ConvertTo-Json
 
 New-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserID $user -BodyParameter $propertiesJSON
+Write-Host "MFA Setup Link:`nhttps://aka.ms/mfasetup" -ForegroundColor Magenta
 
 try {
     $question = Read-Host "Do you want to remove the current TAP?"
