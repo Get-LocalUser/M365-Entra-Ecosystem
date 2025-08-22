@@ -856,7 +856,6 @@ do {
     $scopesquestion = Read-Host "Enter the scope(s) you'd like to connect with with a comma between each scope. Otherwise enter nothing"
     if ($scopesquestion) {
         Connect-MgGraph -Scopes $scopesquestion -NoWelcome
-    } else {
         break
     }
 } while ($true)
