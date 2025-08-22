@@ -830,22 +830,33 @@ $Scopes = @{
     "WorkforceIntegration.ReadWrite.All" = "Read and write workforce integrations"
 }
 
-$letter = Read-Host "Please type in the letter you want to start your search with."
-if ($letter) {
-    foreach ($key in ($scopes.Keys | Sort-Object)) {
-        if ($key -like "$letter*") {
-            Write-Host $key -ForegroundColor Yellow
+do {
+    $letter = Read-Host "Please type in the letter you want to start your search with."
+    if ($letter) {
+        $found = $false
+        foreach ($key in ($scopes.Keys | Sort-Object)) {
+            if ($key -like "$letter*") {
+                Write-Host $key -ForegroundColor Yellow
+                $found = $true
+            }
         }
-    } $description = Read-Host "Write the scope you want the description of, else press enter"
-    if ($description) {
-        Write-Host "`n${description}: $($scopes[$description])" -ForegroundColor Yellow
-        Write-Host ""
-    } 
-}
 
-$scopesquestion = Read-Host "Enter the scope(s) you'd like to connect with with a comma between each scope. Otherwise enter nothing"
-if ($scopesquestion) {
-    Connect-MgGraph -Scopes $scopesquestion -NoWelcome
-} else {
-    break
-}
+        if (-not $found) {
+            Write-Host "No scope beginning with that letter found"
+            continue
+        }
+
+        $description = Read-Host "Write the scope you want the description of, else press enter"
+        if ($description) {
+            Write-Host "`n${description}: $($scopes[$description])" -ForegroundColor Yellow
+            Write-Host ""
+        } 
+    }
+
+    $scopesquestion = Read-Host "Enter the scope(s) you'd like to connect with with a comma between each scope. Otherwise enter nothing"
+    if ($scopesquestion) {
+        Connect-MgGraph -Scopes $scopesquestion -NoWelcome
+    } else {
+        break
+    }
+} while ($true)
