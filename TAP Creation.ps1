@@ -17,7 +17,7 @@ $properties.isUsableOnce = $false
 $properties.startDateTime = $time
 $propertiesJSON = $properties | ConvertTo-Json
 
-New-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserID $user -BodyParameter $propertiesJSON
+New-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserID $user -BodyParameter $propertiesJSON | Out-Host
 Write-Host "MFA Setup Link:`nhttps://aka.ms/mfasetup" -ForegroundColor Magenta
 
 try {
