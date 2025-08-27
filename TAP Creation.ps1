@@ -11,7 +11,7 @@ if ($null -ne $context -and $context.Scopes -contains "UserAuthenticationMethod.
 $time = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 $user = Read-Host "Enter the email for the user"
 
-# Create a Temporary Access Pass for a user
+# Create a Temporary Access Pass for a user that can be used more than once
 $properties = @{}
 $properties.isUsableOnce = $false
 $properties.startDateTime = $time
