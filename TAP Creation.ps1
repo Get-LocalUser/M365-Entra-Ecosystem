@@ -17,15 +17,17 @@ $properties.isUsableOnce = $false
 $properties.startDateTime = $time
 $propertiesJSON = $properties | ConvertTo-Json
 
-New-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserID $user -BodyParameter $propertiesJSON | Out-Host
+$tap = New-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserID $user -BodyParameter $propertiesJSON | Out-Host
 Write-Host "MFA Setup Link:`nhttps://aka.ms/mfasetup" -ForegroundColor Magenta
 
 try {
     $question = Read-Host "Do you want to remove the current TAP?"
-    if ($question -eq "y") {
-        Remove-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserId $user
+    if ($question -like "y") {
+        $existingtap = (Get-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserId $user).Id
+        Remove-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserId $user -TemporaryAccessPassAuthenticationMethodId $existingtap
+        Write-Host "TAP with ID $existingtap removed" -ForegroundColor Green
     } else {
-        Write-Host "You said no. TAP remains"
+        Write-Host "You declined. TAP will remain active for 60 minutes from the time it was created."
     }
 }
 catch {
