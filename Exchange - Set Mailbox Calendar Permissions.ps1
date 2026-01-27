@@ -1,15 +1,3 @@
-<#
-.SYNOPSIS
-    Sets Exchange calendar permissions for a user's mailbox.
-
-.DESCRIPTION
-    This script connects to Exchange Online and sets calendar permissions on a user's mailbox.
-    It assigns the following roles:
-        - Reviewer to 'Default'
-        - Owner to a specified user
-        - PublishingEditor to another specified user
-#>
-
 param (
     [Parameter(Mandatory = $true)]
     [string]$AdminEmail = '',
