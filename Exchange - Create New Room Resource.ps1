@@ -1,5 +1,3 @@
-# This script creates a new room resource mailbox in Exchange Online.
-
 param(
     [Parameter(Mandatory = $true)]
     [int]$RoomCapacity,
@@ -8,18 +6,26 @@ param(
     [string]$RoomName
 )
 
+# Create a safe alias / SMTP address (remove spaces)
+$Alias = ($RoomName -replace '\s','')
+$PrimarySmtp = "$Alias@example.com"
+
+# Create room mailbox
 New-Mailbox `
-    -Name $RoomName `
+    -Name $Alias `
+    -Alias $Alias `
     -Room `
     -DisplayName $RoomName `
-    -PrimarySmtpAddress "$RoomName@example.com"
+    -PrimarySmtpAddress $PrimarySmtp
 
-Set-CalendarProcessing $RoomName `
-    -AutomateProcessing AutoAccept ` # Automatically accept meeting requests as long as no policy says otherwise.
-    -BookingWindowInDays 365 ` # How many days in advance you can book the room.
-    -AllBookInPolicy $False ` # Not everyone can autobook. Only users allowed explicity in the 'BookinPolicy'.
-    -AllRequestInPolicy $True ` # Anyone in the org can request the room but may need delegate approval if setup. If $false, only people in the BookInPolicy can request. if not, it'll be auto denied.
-    -AllRequestOutOfPolicy $False # users who are out of policy cannot request the room.
+# Configure calendar processing
+Set-CalendarProcessing $Alias `
+    -AutomateProcessing AutoAccept `
+    -BookingWindowInDays 365 `
+    -AllBookInPolicy $true `
+    -AllRequestInPolicy $false `
+    -AllRequestOutOfPolicy $false
 
-Set-Mailbox $RoomName `
-    -ResourceCapacity $RoomCapacity # Number of people the room can hold
+# Set room capacity
+Set-Mailbox $Alias `
+    -ResourceCapacity $RoomCapacity
