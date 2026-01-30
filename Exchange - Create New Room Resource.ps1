@@ -3,7 +3,13 @@ param(
     [int]$RoomCapacity,
 
     [Parameter(Mandatory = $true)]
-    [string]$RoomName
+    [string]$RoomName,
+
+    [Parameter(Mandatory = $true)]
+    [string]$City,
+
+    [Parameter(Mandatory = $true)]
+    [string]$Office
 )
 
 # Create a safe alias / SMTP address (remove spaces)
@@ -20,7 +26,11 @@ New-Mailbox `
     -DisplayName $RoomName `
     -PrimarySmtpAddress $PrimarySmtp
 
-    Start-Sleep -Seconds 15
+Start-Sleep -Seconds 35
+
+Set-Place $Alias `
+    -City $City `
+    -CountryOrRegion "United States"
 
 # Configure calendar processing
 Set-CalendarProcessing $Alias `
@@ -32,4 +42,5 @@ Set-CalendarProcessing $Alias `
 
 # Set room capacity
 Set-Mailbox $Alias `
-    -ResourceCapacity $RoomCapacity
+    -ResourceCapacity $RoomCapacity `
+    -Office $Office
