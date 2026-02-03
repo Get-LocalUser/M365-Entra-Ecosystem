@@ -12,13 +12,11 @@ param(
     [string]$Office
 )
 
-# Create a safe alias / SMTP address (remove spaces)
 $Alias = ($RoomName -replace '\s','')
 $PrimarySmtp = "$Alias@example.com"
 
 Write-Host "This may take a few minutes" -ForegroundColor Yellow
 
-# Create room mailbox
 New-Mailbox `
     -Name $Alias `
     -Alias $Alias `
@@ -32,7 +30,6 @@ Set-Place $Alias `
     -City $City `
     -CountryOrRegion "United States"
 
-# Configure calendar processing
 Set-CalendarProcessing $Alias `
     -AutomateProcessing AutoAccept `
     -BookingWindowInDays 365 `
@@ -40,7 +37,6 @@ Set-CalendarProcessing $Alias `
     -AllRequestInPolicy $false `
     -AllRequestOutOfPolicy $false
 
-# Set room capacity
 Set-Mailbox $Alias `
     -ResourceCapacity $RoomCapacity `
     -Office $Office
