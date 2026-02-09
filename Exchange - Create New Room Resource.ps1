@@ -40,3 +40,5 @@ Set-CalendarProcessing $Alias `
 Set-Mailbox $Alias `
     -ResourceCapacity $RoomCapacity `
     -Office $Office
+
+# Add-DistributionGroupMember -Identity "" -Member $PrimarySmtp
