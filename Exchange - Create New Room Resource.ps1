@@ -24,7 +24,7 @@ New-Mailbox `
     -DisplayName $RoomName `
     -PrimarySmtpAddress $PrimarySmtp
 
-Start-Sleep -Seconds 35
+Start-Sleep -Seconds 40
 
 Set-Place $Alias `
     -City $City `
@@ -33,12 +33,16 @@ Set-Place $Alias `
 Set-CalendarProcessing $Alias `
     -AutomateProcessing AutoAccept `
     -BookingWindowInDays 365 `
-    -AllBookInPolicy $true `
-    -AllRequestInPolicy $false `
-    -AllRequestOutOfPolicy $false
+    -AllBookInPolicy $false `
+    -AllRequestInPolicy $true `
+    -AllRequestOutOfPolicy $false `
+    -ForwardRequestsToDelegates $true
 
 Set-Mailbox $Alias `
     -ResourceCapacity $RoomCapacity `
     -Office $Office
 
-# Add-DistributionGroupMember -Identity "" -Member $PrimarySmtp
+
+Write-Host "Don't forget to add $PrimarySmtp to a RoomList."
+Write-Host "You can use the command below to add"
+Write-Host "`nAdd-DistributionGroupMember -Identity """" -Member $PrimarySmtp" -ForegroundColor Yellow
