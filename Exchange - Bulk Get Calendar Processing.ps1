@@ -8,5 +8,7 @@ foreach ($Room in $Rooms) {
         AllBookInPolicy, `
         AllRequestInPolicy, `
         AllRequestOutofPolicy, `
+        BookInPolicy, `
+        RequestInPolicy, `
         ForwardRequestsToDelegates
 }
