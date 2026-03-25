@@ -17,8 +17,16 @@ $properties.isUsableOnce = $false
 $properties.startDateTime = $time
 $propertiesJSON = $properties | ConvertTo-Json
 
-$tap = New-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserID $user -BodyParameter $propertiesJSON | Out-Host
-Write-Host "MFA Setup Link:`nhttps://aka.ms/mfasetup" -ForegroundColor Magenta
+try {
+    $tap = New-MgBetaUserAuthenticationTemporaryAccessPassMethod -UserID $user -BodyParameter $propertiesJSON -ErrorAction Stop | Out-Host
+    Write-Host "MFA Setup Link:`nhttps://aka.ms/mfasetup" -ForegroundColor Magenta
+}
+catch {
+    Write-Host "Failed to create TAP." -ForegroundColor Red
+    Write-Host $_.Exception.Message -ForegroundColor Red
+    
+    return
+}
 
 try {
     $question = Read-Host "Do you want to remove the current TAP?"
