@@ -1,5 +1,8 @@
 # Very slight mod to MS's script
 
+.NOTES
+# You need the Graph.Beta module installed to use this. 
+
 # Connect to Graph
 $context = Get-MgContext 
 if ($null -ne $context -and $context.Scopes -contains "UserAuthenticationMethod.ReadWrite.All") {
